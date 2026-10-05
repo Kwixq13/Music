@@ -1,48 +1,40 @@
-# Вітаю в фіналі
+# Music Platform — WebFullstack MakerTime
 
-### Ось твоє завдання на цей Maker Time:
+An open music platform where users upload their own audio files to the server, metadata is stored in a database, and music plays through an interactive streaming player.
 
-```
-Створити відкриту музичну платформу, де користувачі можуть завантажувати власні аудіофайли на сервер, зберігати інформацію про них у базі даних та прослуховувати музику через інтерактивний онлайн плеєр з підтримкою стрімінгу.
-```
+## Features
 
-### Твоє завдання розділене на три рівні
+### Level 1 — Core
+- **Backend:** Express server + MySQL database with a `tracks` table. File uploads (MP3 + cover art) via Multer.
+- **Database:** On upload, the file path and metadata (title, artist) are written to the DB.
+- **Frontend:** React page with an upload form and a track list fetched from the server via Axios.
+- **Streaming:** Playback of the selected track through a standard HTML5 audio player streaming data from the server.
 
-#### Level 1
+### Level 2 — State & UI
+- **Redux Toolkit:** Player logic moved to global state. The player is pinned in the footer (Player Bar) and keeps playing while navigating between pages.
+- **UI/UX:** Material UI media library (Grid of track cards). Loading spinner while the track list is being fetched.
 
-```
-Backend: Створити сервер на Express та базу даних MySQL з таблицею tracks. Налаштувати завантаження файлів (MP3 та обкладинка) через Multer.
-Database: При завантаженні файлу шлях до нього та метадані (назва, автор) мають записуватися в БД.
-Frontend: Створити просту сторінку на React з формою завантаження та списком усіх треків, отриманих з сервера через Axios.
-Стрімінг: Реалізувати відтворення обраного треку через стандартний HTML5 аудіоплеєр, що отримує потік даних з сервера.
-```
+### Level 3 — Search, Style, i18n
+- **Search & Filter:** Live search by title and genre filtering via SQL queries on the backend.
+- **Styled Components:** `styled()` from MUI for a responsive design that adapts to the current track's cover color.
+- **i18next:** Full UA/EN localization of the interface.
 
-#### Level 2
+## Tech stack
 
-```
-Redux Toolkit: Винести логіку плеєра в глобальний стан. Плеєр має бути закріплений у футері (Player Bar) і не переривати програвання при навігації між сторінками.
-UI/UX: Використати Material UI для створення стильної медіатеки (Grid з картками треків). Додати індикатор завантаження (Spinner), поки список треків очікується з сервера.
-```
+- Frontend: React 19, Vite, Material UI, Redux Toolkit, Axios, i18next
+- Backend: Express, Multer, mysql2
+- Database: MySQL (with JSON-file fallback for local dev)
 
-#### Level 3
+## Quick start
 
-```
-Search & Filter: Реалізувати живий пошук за назвою та фільтрацію за жанрами через SQL-запити на бекенді.
-Styled Components: Використати styled() з MUI для створення адаптивного дизайну, що підлаштовується під колір обкладинки поточного треку.
-i18next: Додати підтримку двох мов (UA/EN) для всього інтерфейсу додатка.
-```
-
-### Для легкого старту ось тобі шаблон проєкту
-#####  Перед початком проєкту не забудь налаштувати
-
-#### server
+### Server
 
 ```cmd
 cd server
 npm install
 ```
 
-А також створити **.env** файл з ключами до бази даних 
+Create a **.env** file with your database credentials (never commit this file):
 
 ```dotenv
 HOST=localhost
@@ -52,11 +44,29 @@ DATABASE=myDatabase
 PORT=3306
 ```
 
-#### client
+```cmd
+npm run dev
+```
+
+Server runs on port 3000. See `server/schema.sql` for the `tracks` table.
+
+### Client
 
 ```cmd
 cd client
 npm install
+npm run dev
 ```
 
-## Удачі тобі робокотику
+## API
+
+| Method | Endpoint       | Description                  |
+| ------ | -------------- | ---------------------------- |
+| GET    | `/files`       | List all tracks (newest first) |
+| POST   | `/upload`      | Upload audio + cover (multipart: `audio`, `cover`, fields: `title`, `artist`, `genre`) |
+| GET    | `/download/:id`| Download / stream a track    |
+| GET    | `/delete/:id`  | Delete a track and its files |
+
+## Author
+
+Kwixq13 — 16 y.o. Fullstack developer from Ukraine.
